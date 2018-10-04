@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme formBooking 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+
+<h1>Réservation</h1>
+
+<hr>
+
+{{ form_start(formBooking)}}
+
+
+    <div class="form-group">
+        <label for="">Votre Email</label>
+        {{ form_widget(formBooking.email) }}
+    </div>
+
+    <div class="form-group">
+        <label for="">Votre date de visite</label>
+        {{ form_widget(formBooking.visitdate) }}
+    </div>
+
+    <div class="form-group">
+        <label for="">Votre numero de commande</label>
+        {{ form_widget(formBooking.bookingnumber) }}
+    </div>
+
+    <div class="form-group">
+        <label for="">Le prix de votre commande</label>
+        {{ form_widget(formBooking.totalprice) }}
+    </div>
+
+    <button type="submit" class="btn btn-success">Terminer la commande</button>
+
+{{ form_end(formBooking)}}
+
+{% endblock %}
