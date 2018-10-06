@@ -7,6 +7,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Booking;
+use App\Entity\Ticket;
+use App\Form\BookingType;
 
 class LouvreController extends AbstractController
 {
@@ -35,26 +37,18 @@ class LouvreController extends AbstractController
     {
         $booking = new Booking();
 
-        $form = $this->createFormBuilder($booking)
-            ->add('email')
-            ->add('visitdate')
-            ->add('bookingnumber')
-            ->add('totalprice')
-            ->getForm();
+        $form = $this->createForm(BookingType::class, $booking);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            // Ici, il est peut-être possible de créer le numero de résa (40')
             $manager->persist($booking);
             $manager->flush();
 
             return $this->redirectToRoute('home');
-            // quand elle sera créée il faudra rediriger vers la route "payment"
-        }
-            
+        }            
 
-        return $this->render('louvre/booking.html.twig', ['formBooking' => $form->createView()]);
+        return $this->render('louvre/booking.html.twig', array('formBooking' => $form->createView(),));
     }
 
     /**

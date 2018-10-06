@@ -46,6 +46,12 @@ class Ticket
      */
     private $ticketprice;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Booking", inversedBy="tickets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $booking;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -119,6 +125,18 @@ class Ticket
     public function setTicketprice($ticketprice): self
     {
         $this->ticketprice = $ticketprice;
+
+        return $this;
+    }
+
+    public function getBooking(): ?Booking
+    {
+        return $this->booking;
+    }
+
+    public function setBooking(?Booking $booking): self
+    {
+        $this->booking = $booking;
 
         return $this;
     }

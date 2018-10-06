@@ -10,29 +10,72 @@
 
 {{ form_start(formBooking)}}
 
+    {{ form_row(formBooking.email) }}
+    {{ form_row(formBooking.visitdate) }}
 
-    <div class="form-group">
-        <label for="">Votre Email</label>
-        {{ form_widget(formBooking.email) }}
-    </div>
+    <h3>Achetez vos billets</h3>
+    <ul class="tickets" data-prototype="{{ form_row(formBooking.tickets.vars.prototype)|e('html_attr') }}">
+        {% for ticket in formBooking.tickets %}
+            <li>{{ form_row(ticket.name) }}</li>
+            <li>{{ form_row(ticket.firstname) }}</li>
+            <li>{{ form_row(ticket.birthdate) }}</li>
+            <li>{{ form_row(ticket.country) }}</li>
+            <li>{{ form_row(ticket.ticketprice) }}</li>
+            <li>{{ form_row(ticket.reducedprice) }}</li>
+        var $addTagButton = $('<button type="button" class="add_tag_link">Add a tag</button>');
+        var $newLinkLi = $('<li></li>').append($addTagButton);
+        {% endfor %}
+    </ul>
 
-    <div class="form-group">
-        <label for="">Votre date de visite</label>
-        {{ form_widget(formBooking.visitdate) }}
-    </div>
-
-    <div class="form-group">
-        <label for="">Votre numero de commande</label>
-        {{ form_widget(formBooking.bookingnumber) }}
-    </div>
-
-    <div class="form-group">
-        <label for="">Le prix de votre commande</label>
-        {{ form_widget(formBooking.totalprice) }}
-    </div>
+    {{ form_row(formBooking.bookingnumber) }}
+    {{ form_row(formBooking.totalprice) }}
 
     <button type="submit" class="btn btn-success">Terminer la commande</button>
 
 {{ form_end(formBooking)}}
+
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+{# 
+var $collectionHolder; #}
+
+jQuery(document).ready(function() {
+    $collectionHolder = $('ul.tags');
+
+    $collectionHolder.append($newLinkLi);
+
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    $addTicketButton.on('click', function(e) {
+        addTicketForm($collectionHolder, $newLinkLi);
+    });
+});
+
+function addTicketForm($collectionHolder, $newLinkLi) {
+    var prototype = $collectionHolder.data('prototype');
+
+    var index = $collectionHolder.data('index');
+
+    var newForm = prototype;
+   
+    newForm = newForm.replace(/__name__/g, index);
+
+    $collectionHolder.data('index', index + 1);
+
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+    
+    addTicketFormDeleteLink($newFormLi);
+}
+
+function addTicketFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button type="button">Delete this tag</button>');
+    $tagFormLi.append($removeFormButton);
+
+    $removeFormButton.on('click', function(e) {
+        $tagFormLi.remove();
+    });
+}
 
 {% endblock %}
