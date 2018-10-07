@@ -25,7 +25,7 @@ class BookingType extends AbstractType
             'entry_options' => array('label' => false),
             'allow_add' => true,
             'by_reference' => false,
-            'allow_delete' => true,));
+            'allow_delete' => true));
     }
 
     public function configureOptions(OptionsResolver $resolver)
