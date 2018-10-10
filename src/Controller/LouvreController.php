@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -35,8 +37,10 @@ class LouvreController extends AbstractController
      */
     public function booking(Request $request, ObjectManager $manager)
     {
-        $booking = new Booking();
-
+        $booking = new Booking(); 
+        $ticket = new Ticket(); 
+        $booking->addTicket($ticket);
+ 
         $form = $this->createForm(BookingType::class, $booking);
 
         $form->handleRequest($request);
@@ -58,4 +62,9 @@ class LouvreController extends AbstractController
     {
         return $this->render('louvre/infos.html.twig');
     }
+
+    // public function trad(TranslatorInterface $translator)
+    // {
+    //     $translated = $translator->trans('Symfony is great');
+    // }
 }

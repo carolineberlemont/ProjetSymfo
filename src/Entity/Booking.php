@@ -112,7 +112,7 @@ class Booking
     public function addTicket(Ticket $ticket): self
     {
         if (!$this->tickets->contains($ticket)) {
-            $this->tags->add($tag);
+            $this->tickets->add($ticket);
             $this->tickets[] = $ticket;
             $ticket->setBooking($this);
         }

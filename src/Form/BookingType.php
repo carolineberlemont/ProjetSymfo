@@ -5,7 +5,6 @@ use App\Entity\Booking;
 use App\Form\TicketType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,9 +22,9 @@ class BookingType extends AbstractType
             ->add('tickets', CollectionType::class, array(
             'entry_type' => TicketType::class,
             'entry_options' => array('label' => false),
-            'allow_add' => true,
-            'by_reference' => false,
-            'allow_delete' => true));
+            'allow_add' => true));
+            // 'by_reference' => false,
+            // 'allow_delete' => true));
     }
 
     public function configureOptions(OptionsResolver $resolver)
