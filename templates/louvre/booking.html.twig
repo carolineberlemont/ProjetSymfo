@@ -4,33 +4,27 @@
 
 {% block body %}
     <div class="container">
-        <h1>Réservation</h1>
+        <h1>{{"booking"|trans}}</h1>
         <hr>
 {{ form_start(formBooking)}}
-
+    {# ici, il faut juste ajuter une validation comme quoi c'est bien un email #}
     {{ form_row(formBooking.email) }}
+    {# ici, il faut bloquer les jours passés, les mardis et les jours feries ou le musée est fermé a prior avec datepicker#}
     {{ form_row(formBooking.visitdate) }}
 
-    <h3>Achetez vos billets</h3>
+    <h3>{{ "Buy"|trans}}</h3>
     <div class="jumbotron">
         <ul class="tickets" data-prototype="{{ form_widget(formBooking.tickets.vars.prototype)|e('html_attr') }}">
-            {% for ticket in formBooking.tickets %}
-                {{ form_row(ticket.name) }}
-                {{ form_row(ticket.firstname) }}
-                {{ form_row(ticket.birthdate) }}
-                {{ form_row(ticket.country) }}
-                {{ form_row(ticket.ticketprice) }}
-                {{ form_row(ticket.reducedprice) }}
-{# ici, je ne sais pas comment intégrer le lien pour ajouter un tcket. cf code 10 de la doc symfo. je crois qu'il ne faut rien mettre #}
-            {% endfor %}
+            {{ form_row(formBooking.tickets)}}
         </ul>
     </div>
-
+    {# ici, il faut générer une chaine aléatoire comme code de réservation : chiffres et lettres #}
     {{ form_row(formBooking.bookingnumber) }}
+    {# ici, on doit avoir le prix total des billets achetés #}
     {{ form_row(formBooking.totalprice) }}
     
 
-<button type="submit" class="btn btn-success">Terminer la commande</button>
+<button type="submit" class="btn btn-success">{{"endBooking"|trans}}</button>
 
 {{ form_end(formBooking)}}
 
@@ -59,7 +53,7 @@
                 newForm = newForm.replace(/__name__/g, index);
                 $collectionHolder.data('index', index + 1);
                 var $newFormLi = $('<li></li>').append(newForm);
-                $newLinkLi.before($newFormLi);
+                $addTagButton.before($newFormLi);
                 addTicketFormDeleteLink($newFormLi);
             }
             function addTicketFormDeleteLink($tagFormLi) {

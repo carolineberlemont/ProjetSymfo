@@ -39,7 +39,7 @@ class Booking
     private $totalprice;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="booking", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="booking", orphanRemoval=true, cascade = {"persist"})
      */
     protected $tickets;
 
@@ -112,7 +112,6 @@ class Booking
     public function addTicket(Ticket $ticket): self
     {
         if (!$this->tickets->contains($ticket)) {
-            $this->tickets->add($ticket);
             $this->tickets[] = $ticket;
             $ticket->setBooking($this);
         }

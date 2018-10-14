@@ -22,9 +22,9 @@ class BookingType extends AbstractType
             ->add('tickets', CollectionType::class, array(
             'entry_type' => TicketType::class,
             'entry_options' => array('label' => false),
-            'allow_add' => true));
-            // 'by_reference' => false,
-            // 'allow_delete' => true));
+            'allow_add' => true,
+            'by_reference' => false,
+            'allow_delete' => true));
     }
 
     public function configureOptions(OptionsResolver $resolver)
