@@ -63,8 +63,4 @@ class LouvreController extends AbstractController
         return $this->render('louvre/infos.html.twig');
     }
 
-    // public function trad(TranslatorInterface $translator)
-    // {
-    //     $translated = $translator->trans('Symfony is great');
-    // }
 }
