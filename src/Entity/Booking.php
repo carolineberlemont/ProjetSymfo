@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
@@ -20,21 +21,25 @@ class Booking
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $bookingnumber;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="Votre email n'est pas valide")
      */
     private $email;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Date
      */
     private $visitdate;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=0)
+     * @Assert\NotBlank()
      */
     private $totalprice;
 

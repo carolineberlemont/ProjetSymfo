@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +36,7 @@ class LouvreController extends AbstractController
     /**
      * @Route("/booking", name="booking")
      */
-    public function booking(Request $request, ObjectManager $manager)
+    public function booking(Request $request, ObjectManager $manager, ValidatorInterface $validator)
     {
         $booking = new Booking(); 
         $ticket = new Ticket(); 
@@ -45,7 +46,9 @@ class LouvreController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if($form->isSubmitted() && $form->isValid()) 
+        {
+            // je crois qu'il faut génèrer ici le numero de réservation
             $manager->persist($booking);
             $manager->flush();
 
@@ -62,5 +65,4 @@ class LouvreController extends AbstractController
     {
         return $this->render('louvre/infos.html.twig');
     }
-
 }

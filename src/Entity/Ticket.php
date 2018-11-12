@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TicketRepository")
@@ -18,31 +19,40 @@ class Ticket
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=2, exactMessage="Votre nom doit contenir au moins deux lettres")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Votre prénom doit être renseigné")
+     * @Assert\Length(min=2, exactMessage="Votre prénom doit contenir au moins deux lettres")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Date
      */
     private $birthdate;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Country
      */
     private $country;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\Type("\Checkbox")
      */
     private $reducedprice;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=0)
+     * @ORM\Column(type="boolean")
+     * @Assert\NotBlank()
+     * @Assert\Type("\Checkbox")
      */
     private $ticketprice;
 

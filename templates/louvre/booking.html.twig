@@ -6,14 +6,13 @@
     <div class="container">
         <h1>{{"booking"|trans}}</h1>
         <hr>
-{{ form_start(formBooking)}}
-    {# ici, il faut juste ajuter une validation comme quoi c'est bien un email #}
-    {{ form_row(formBooking.email) }}
-    {# ici, il faut bloquer les jours passés, les mardis et les jours feries ou le musée est fermé a prior avec datepicker#}
+{{ form_start(formBooking, {'attr': {'novalidate': 'novalidate'}})}}
+        {{ form_row(formBooking.email) }}
+    {# ici, il faut bloquer les jours passés, les mardis et les jours feries ou le musée est fermé a priori avec datepicker#}
     {{ form_row(formBooking.visitdate) }}
     {# {{ form_row(formBooking.visitdate, {'attr': {'data-dates-disabled': publicHolidays |json_encode() }}) }} #}
     
-    <h3>{{ "Buy"|trans}}</h3>
+    <h3>{{"buy"|trans}}</h3>
     <div class="jumbotron">
         <ul class="tickets" data-prototype="{{ form_widget(formBooking.tickets.vars.prototype)|e('html_attr') }}">
             {{ form_row(formBooking.tickets)}}
@@ -33,8 +32,49 @@
 
     {% block javascripts %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-        <script type="text/javascript" src="js/main2.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css"></script>
+
+<script type="text/javascript">
+        
+var $collectionHolder;
+var $addTagButton = $('<button type="button" class="add_ticket_link">Ajouter un ticket</button>');
+
+jQuery(document).ready(function() {
+    $collectionHolder = $('ul.tickets');
+    $collectionHolder.append($addTagButton);
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    $addTagButton.on('click', function(e)
+    {
+        addTicketForm($collectionHolder, $addTagButton);
+    });
+});
+function addTicketForm($collectionHolder, $addTagButton) {
+    var prototype = $collectionHolder.data('prototype');
+    var index = $collectionHolder.data('index');
+    var newForm = prototype;
+    newForm = newForm
+    {# .replace(/__name__label__/g, 'Ticket n°' + index) #}
+    .replace(/__name__/g, index);
+    $collectionHolder.data('index', index + 1);
+    var $newFormLi = $('<li></li>').append(newForm);
+    $addTagButton.before($newFormLi);
+    addTicketFormDeleteLink($newFormLi);
+}
+function addTicketFormDeleteLink($tagFormLi) {
+    var $removeFormButton = $('<button type="button">Supprimer ce ticket</button>');
+    $tagFormLi.append($removeFormButton);
+    $removeFormButton.on('click', function(e) {
+        $tagFormLi.remove();
+    });
+
+{# $(document).ready(function() {
+$('.js-datepicker').datepicker({
+    format: 'mm/dd/yyyy', 
+    startDate: '+1d',
+    endDate: '+2y'
+    });
+}); #}
+
+}</script>
     {% endblock %}
 {% endblock %} 

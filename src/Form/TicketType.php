@@ -16,16 +16,16 @@ class TicketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('name')
-        ->add('firstname')
-        ->add('birthdate', BirthdayType::class)
-        ->add('country', CountryType::class)
-        ->add('ticketprice', ChoiceType::class, array(
+        ->add('name', null, array('label' => 'Votre nom de famille'))
+        ->add('firstname', null, array('label' => 'Votre prénom'))
+        ->add('birthdate', BirthdayType::class, array('label' => 'Votre date de naissance', 'widget' => 'single_text', 'attr' => ['class' => 'js-datepicker']))
+        ->add('country', CountryType::class, array('label' => 'Votre pays'))
+        ->add('ticketprice', ChoiceType::class, array('label' => 'Billet journée ou demie-journée',
             'choices'  => array(
                 'Journée' => true,
                 'Demie-Journée (à partir de 14h)' => false,)
             ))
-        ->add('reducedprice');
+        ->add('reducedprice', null, array('label' => 'Tarif réduit (pour x, x, et x)'));
     }
 
     public function configureOptions(OptionsResolver $resolver)
